@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90655aed69adcee46889b2761d5e2535, type: 3}
+  m_Name: FormsHolder
+  m_EditorClassIdentifier: 
+  _forms:
+  - ID: Blob
+    FormImages:
+    - Color: 0
+      Sprite: {fileID: -7368537663919622422, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 1
+      Sprite: {fileID: 4230693472422322158, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 2
+      Sprite: {fileID: 3939667969903821938, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 3
+      Sprite: {fileID: -916821752804801664, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 4
+      Sprite: {fileID: -7458496869489937717, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    Prefab: {fileID: 3665509292381021626, guid: 686a21ce339a43b4982cacddd2e86b98, type: 3}
+  - ID: Box
+    FormImages:
+    - Color: 0
+      Sprite: {fileID: -6071529247223502259, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 1
+      Sprite: {fileID: -6488665859970782309, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 2
+      Sprite: {fileID: 29475509441060678, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 3
+      Sprite: {fileID: -7148630984176685904, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 4
+      Sprite: {fileID: 5473172119755517815, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    Prefab: {fileID: 8455349978978033272, guid: 99608980d51ef33429c65e0efb2afb53, type: 3}
+  - ID: Circle
+    FormImages:
+    - Color: 0
+      Sprite: {fileID: -2300676480453258915, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 1
+      Sprite: {fileID: 8475867643242929974, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 2
+      Sprite: {fileID: 4019905596374991644, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 3
+      Sprite: {fileID: -6341161261924818103, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 4
+      Sprite: {fileID: 2070459037176663104, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    Prefab: {fileID: 2604759445266967144, guid: cfbf49058c6b8d0489ae45f444dc1a92, type: 3}
+  - ID: Triangle
+    FormImages:
+    - Color: 0
+      Sprite: {fileID: -6630766120434781242, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 1
+      Sprite: {fileID: 5003087582475748309, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 2
+      Sprite: {fileID: 8958722161731385523, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 3
+      Sprite: {fileID: -410071503808468722, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    - Color: 4
+      Sprite: {fileID: -6649023135137211273, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
+    Prefab: {fileID: 8999515154079477946, guid: 933764ec42484534b87fbceef72f51dd, type: 3}
