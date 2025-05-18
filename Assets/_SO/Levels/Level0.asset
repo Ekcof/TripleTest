@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079960bc5642a8a48af760951c1ddb88, type: 3}
   m_Name: Level0
   m_EditorClassIdentifier: 
+  _iconTypes: 010000000200000003000000
+  _formColors: 000000000100000002000000
+  _formTypes: 000000000100000002000000
+  _rowNumber: 3

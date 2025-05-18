@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FormsHolder
   m_EditorClassIdentifier: 
   _forms:
-  - ID: Blob
+  - FormType: 3
     FormImages:
     - Color: 0
       Sprite: {fileID: -7368537663919622422, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
@@ -25,8 +25,7 @@ MonoBehaviour:
       Sprite: {fileID: -916821752804801664, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
     - Color: 4
       Sprite: {fileID: -7458496869489937717, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
-    Prefab: {fileID: 3665509292381021626, guid: 686a21ce339a43b4982cacddd2e86b98, type: 3}
-  - ID: Box
+  - FormType: 2
     FormImages:
     - Color: 0
       Sprite: {fileID: -6071529247223502259, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
@@ -38,8 +37,7 @@ MonoBehaviour:
       Sprite: {fileID: -7148630984176685904, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
     - Color: 4
       Sprite: {fileID: 5473172119755517815, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
-    Prefab: {fileID: 8455349978978033272, guid: 99608980d51ef33429c65e0efb2afb53, type: 3}
-  - ID: Circle
+  - FormType: 0
     FormImages:
     - Color: 0
       Sprite: {fileID: -2300676480453258915, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
@@ -51,8 +49,7 @@ MonoBehaviour:
       Sprite: {fileID: -6341161261924818103, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
     - Color: 4
       Sprite: {fileID: 2070459037176663104, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
-    Prefab: {fileID: 2604759445266967144, guid: cfbf49058c6b8d0489ae45f444dc1a92, type: 3}
-  - ID: Triangle
+  - FormType: 1
     FormImages:
     - Color: 0
       Sprite: {fileID: -6630766120434781242, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
@@ -64,4 +61,3 @@ MonoBehaviour:
       Sprite: {fileID: -410071503808468722, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
     - Color: 4
       Sprite: {fileID: -6649023135137211273, guid: 11d97cf7e0d1d6d41ae930c0c957c8f0, type: 3}
-    Prefab: {fileID: 8999515154079477946, guid: 933764ec42484534b87fbceef72f51dd, type: 3}

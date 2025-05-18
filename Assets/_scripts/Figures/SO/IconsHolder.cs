@@ -1,15 +1,25 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Figures
 {
+	public interface IIconsHolder
+	{
+		Icon GetIconByType(IconType type);
+	}
+
 	[CreateAssetMenu(fileName = "IconsHolder", menuName = "ScriptableObjects/IconsHolder")]
-	public class IconsHolder : ScriptableObject
-{
+	public class IconsHolder : ScriptableObject, IIconsHolder
+	{
 		[SerializeField] private Icon[] _icons;
 
-		public Icon GetIconByType {  get { return _icons[0]; } }
-    }
+		Icon IIconsHolder.GetIconByType(IconType type)
+		{
+			// Find the icon with the matching type in the _icons array  
+			return _icons.FirstOrDefault(icon => icon.Type == type);
+		}
+	}
 
 	[Serializable]
 	public class Icon

@@ -1,18 +1,15 @@
+using Figures;
 using Installers;
-using System.Diagnostics;
-using UnityEditor.PackageManager.UI;
+using UnityEngine;
 
 public class MainSceneInstaller : BaseInstaller
 {
+	[SerializeField] private FiguresSpawner _figureSpawner;
+
 	public override void InstallBindings()
 	{
-		//var windows = FindObjectsOfType<UIWindow>();
+		Bind(_figureSpawner);
 
-		//foreach (var window in windows)
-		//{
-		//	UnityEngine.Debug.Log($"_____Add {window.name} to container");
-		//	Container.Bind(window.GetType()).FromInstance(window).AsSingle();
-		//}
 		Bind<PhysicManager>();
 	}
 }

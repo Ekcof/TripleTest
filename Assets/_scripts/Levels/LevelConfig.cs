@@ -7,12 +7,12 @@ using UnityEngine;
 [Serializable]
 public class LevelConfig : ScriptableObject
 {
-    [SerializeField] private readonly IconType[] _iconTypes;
-    [SerializeField] private readonly FormColor[] _formColors;
-	[SerializeField] private readonly FormType[] _formTypes;
-    [SerializeField,Min(1)] private readonly int _rowNumber;
+	[SerializeField] private IconType[] _iconTypes;
+	[SerializeField] private FormColor[] _formColors;
+	[SerializeField] private FormType[] _formTypes;
+	[SerializeField, Min(1)] private int _rowNumber;
 
-	[SerializeField] private readonly ExtraFigureConfig[] _extraFigures;
+	[SerializeField] private ExtraFigureConfig[] _extraFigures;
 
 	public IEnumerable<RegularFigureConfig> GetAllCombinations()
 	{

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _formsHolder: {fileID: 11400000, guid: 3f2bcff094f565c46b849b6b3c07c363, type: 2}
   _iconsHolder: {fileID: 11400000, guid: fa481228cfa88334e99cb1d274790f2a, type: 2}
+  _levelsHandler: {fileID: 11400000, guid: ac190f8d7c75a0b45854ecba4467d2a8, type: 2}

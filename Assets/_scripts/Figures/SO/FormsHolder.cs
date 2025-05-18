@@ -4,19 +4,24 @@ using UnityEngine;
 
 namespace Figures
 {
-	[CreateAssetMenu(fileName = "FormsHolder", menuName = "ScriptableObjects/FormsHolder", order = 1)]
-	public class FormsHolder : ScriptableObject
+	public interface IFormsHolder
+	{
+		Sprite GetFormSprite(IFigureConfig config);
+	}
+
+	[CreateAssetMenu(fileName = "FormsHolder", menuName = "ScriptableObjects/FormsHolder")]
+	public class FormsHolder : ScriptableObject, IFormsHolder
 	{
 		[SerializeField] private FormConfig[] _forms;
 
-		public string GetFormByID(string id)
+		public Sprite GetFormSprite(IFigureConfig config)
 		{
-			var form = _forms.FirstOrDefault(f => f.ID == id);
+			var form = _forms.FirstOrDefault(f => f.FormType == config.FormType);
 			if (form != null)
 			{
-				return form.ID;
+				return form.FormImages.FirstOrDefault(f => f.Color == config.Color).Sprite;
 			}
-			Debug.LogError($"Form with ID {id} not found.");
+			Debug.LogError($"Sprite with type {config.FormType} and color {config.Color} not found.");
 			return null;
 		}
 	}
@@ -24,9 +29,8 @@ namespace Figures
 	[Serializable]
 	public class FormConfig
 	{
-		public string ID;
+		public FormType FormType;
 		public FormImage[] FormImages;
-		public GameObject Prefab;
 
 		public Sprite GetImageByColor(FormColor color)
 		{

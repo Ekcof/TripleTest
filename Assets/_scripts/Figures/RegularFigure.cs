@@ -1,6 +1,7 @@
 using Figures;
 using System;
 using UnityEngine;
+using static UnityEngine.Rendering.STP;
 
 namespace Figures
 {
@@ -14,14 +15,23 @@ namespace Figures
 
 	public interface IFigure
 	{
-		FormColor FormColor { get; }
+		IFigureConfig Config { get; }
+		void ApplyConfig(RegularFigureConfig config);
 	}
-	public class Figure : MonoBehaviour, IFigure
+	public class RegularFigure : MonoBehaviour, IFigure 
 	{
 		[SerializeField] private FigureView _figureView;
 		[SerializeField] private FigureCollider[] _colliders;
 		[SerializeField] private FigureType _figureType = FigureType.Regular;
-		public FormColor FormColor { get; private set; }
+		private RegularFigureConfig _config;
+		public IFigureConfig Config => _config;
+
+		public void ApplyConfig(RegularFigureConfig config)
+		{
+			_config = config;
+			_figureView.UpdateView(this);
+			ActivateCollider(config.FormType);
+		}
 
 		private void ActivateCollider(FormType formType)
 		{

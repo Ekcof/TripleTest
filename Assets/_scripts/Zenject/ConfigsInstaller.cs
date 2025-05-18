@@ -10,12 +10,13 @@ namespace Installers
 	{
 		[SerializeField] private FormsHolder _formsHolder;
 		[SerializeField] private IconsHolder _iconsHolder;
-		[SerializeField] private IconsHolder _levelsHolder;
+		[SerializeField] private LevelsHandler _levelsHandler;
 
 		public override void InstallBindings()
 		{
 			Bind(_formsHolder);
 			Bind(_iconsHolder);
+			Bind(_levelsHandler);
 		}
 
 		private void Bind<T>(T instance) where T : ScriptableObject
