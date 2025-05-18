@@ -1,6 +1,7 @@
 using Figures;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelConfig", menuName = "Scriptable Objects/LevelConfig")]
@@ -30,6 +31,6 @@ public class LevelConfig : ScriptableObject
 				}
 			}
 		}
-		return list;
+		return list.OrderBy(_ => UnityEngine.Random.value);
 	}
 }

@@ -1,11 +1,38 @@
-using UnityEngine;
+using Cysharp.Threading.Tasks;
+using Figures;
+using System.Diagnostics;
+using Zenject;
 
 public class StartSessionState : GameState
 {
-	public override void Start()
+	[Inject] private IFiguresSpawner _spawner;
+	[Inject] private ILevelsHandler _levels;
+	[Inject] private IPhysicManager _physicManager;
+	public override GameStateType StateType => GameStateType.StartSessionState;
+
+	public async override UniTask Start()
 	{
-// await spawn figures
-// await finishing physics
+		await base.Start();
+		var level = _levels.GetLevel(); // TODO: REMOVE
+
+		try
+		{
+			await _spawner.SpawnFigures(level, _cts.Token);
+			await _physicManager.WaitForStop(_cts.Token);
+		}
+		catch
+		{
+			UnityEngine.Debug.LogError($"{nameof(StartSessionState)}: Failed to wait for start");
+		}
+		GameStateMachine.SetState(GameStateType.SelectionState);
 	}
 
+	protected override void OnChangeState(IGameState state)
+	{
+		UnityEngine.Debug.Log($"{nameof(StartSessionState)}: OnChangeState {state}");
+		base.OnChangeState(state);
+		if (state.StateType != StateType)
+			return;
+		Start().Forget();
+	}
 }

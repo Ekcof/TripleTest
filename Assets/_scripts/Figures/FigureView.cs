@@ -6,9 +6,10 @@ namespace Figures
 {
     public interface IFigureView
     {
-        void UpdateView(IFigure figure);
-        RectTransform RectTransform { get; }
-    }
+		RectTransform RectTransform { get; }
+		void UpdateView(IFigure figure);
+		void SetInteractable(bool isActive);
+	}
 
 
 	public class FigureView : MonoBehaviour, IFigureView
@@ -18,10 +19,15 @@ namespace Figures
 
 		[SerializeField] private Image _form;
 		[SerializeField] private Image _icon;
+		[SerializeField] private Button _button;
 
 		private IFigure _currentFigure;
 		public RectTransform RectTransform => (RectTransform)transform;
 
+		public void SetInteractable(bool isActive)
+		{
+			_button.interactable = isActive;
+		}
 
 		public void UpdateView(IFigure figure)
 		{

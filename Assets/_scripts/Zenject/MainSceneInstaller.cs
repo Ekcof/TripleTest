@@ -1,5 +1,6 @@
 using Figures;
 using Installers;
+using StateMachine;
 using UnityEngine;
 
 public class MainSceneInstaller : BaseInstaller
@@ -9,7 +10,7 @@ public class MainSceneInstaller : BaseInstaller
 	public override void InstallBindings()
 	{
 		Bind(_figureSpawner);
-
+		Bind<GameStateMachine>();
 		Bind<PhysicManager>();
 	}
 }

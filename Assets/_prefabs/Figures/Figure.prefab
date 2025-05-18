@@ -84,7 +84,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &2407391630262808531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _form: {fileID: 2108930522166450950}
   _icon: {fileID: 1246909070082851729}
+  _button: {fileID: 2513067815003924333}
 --- !u!114 &2513067815003924333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,6 +406,7 @@ MonoBehaviour:
   - FormType: 3
     ColliderObject: {fileID: 8748707448836269237}
   _figureType: 0
+  _rigidbody2D: {fileID: 3690605738603218428}
 --- !u!1001 &165142218343124000
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,4 +1,9 @@
+using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using UniRx;
+using Zenject;
 
 namespace StateMachine
 {
@@ -6,25 +11,43 @@ namespace StateMachine
 	{
 		IReadOnlyReactiveProperty<IGameState> CurrentState { get; }
 		void Initialize();
-		void SetState(IGameState state);
+		void SetState(GameStateType type);
 	}
 
-	public class GameStateMachine : IGameStateMachine
+	public class GameStateMachine : IGameStateMachine, IInitializable
 	{
+		[Inject] private DiContainer _diContainer;
 		private readonly ReactiveProperty<IGameState> _currentState = new();
-
+		private List<IGameState> _states = new()
+		{
+		new StartSessionState(),
+			new SelectionState()
+			//new CalculatingState()
+			};
 		public IReadOnlyReactiveProperty<IGameState> CurrentState => _currentState;
 
 		public void Initialize()
 		{
+			foreach (var state in _states)
+			{
+				_diContainer.Inject(state);
+				state.Subscribe();
+			}	
+
 			// Initialization logic for the state machine
-			_currentState.Value = null; // Set to an initial state if applicable
+			var startState = GetState(GameStateType.StartSessionState);
+			_currentState.Value = startState; // Set to an initial state if applicable
 		}
 
-		public void SetState(IGameState state)
+		public void SetState(GameStateType type)
 		{
-			_currentState.Value = state;
+			_currentState.Value = _states.FirstOrDefault(s => s.StateType == type);
 			// Additional logic for transitioning to the new state
+		}
+
+		private IGameState GetState(GameStateType type)
+		{
+			return _states.FirstOrDefault(s => s.StateType == type);
 		}
 	}
 }

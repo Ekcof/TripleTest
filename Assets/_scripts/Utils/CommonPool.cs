@@ -76,6 +76,7 @@ public class CommonPool<T> where T : Component // Pool for copies from component
 	public void Push(T item)
 	{
 		_pool.Push(item);
+		item.gameObject.SetActive(false);
 	}
 
 	public void Push(List<T> items)
@@ -89,6 +90,7 @@ public class CommonPool<T> where T : Component // Pool for copies from component
 		foreach (var item in items)
 		{
 			Push(item);
+			item.gameObject.SetActive(false);
 		}
 
 		items.Clear();
@@ -104,6 +106,7 @@ public class CommonPool<T> where T : Component // Pool for copies from component
 		foreach (var item in items)
 		{
 			Push(item);
+			item.gameObject.SetActive(false);
 		}
 		items.Clear();
 	}

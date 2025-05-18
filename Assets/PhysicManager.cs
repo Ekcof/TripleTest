@@ -1,11 +1,14 @@
+using Cysharp.Threading.Tasks;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Threading;
 using UniRx;
 using UnityEngine;
 
 public interface IPhysicManager
 {
 	IReadOnlyReactiveProperty<bool> HasMovingRBs { get; }
+	UniTask WaitForStop(CancellationToken token);
 	void RegisterRigidBody(Rigidbody2D rb);
 	void ClearAllRigidBodies();
 	void ToggleSimulation(bool isActive);
@@ -58,6 +61,30 @@ public class PhysicManager : IPhysicManager
 
 	public void ToggleSimulation(bool isActive)
 	{
+		Debug.Log($"{nameof(PhysicManager)}: {nameof(ToggleSimulation)}: {isActive}");
 		Physics2D.simulationMode = isActive ? SimulationMode2D.FixedUpdate : SimulationMode2D.Script;
+	}
+
+	public async UniTask WaitForStop(CancellationToken token)
+	{
+		try
+		{
+			await UniTask.WaitWhile(() =>
+			{
+				foreach (var rb in _allRigidBodies)
+				{
+					if (rb != null && rb.IsAwake() && rb.linearVelocity.magnitude >= 0.1f)
+					{
+						return true;
+					}
+				}
+				return false;
+			}, cancellationToken: token);
+		}
+		catch
+		{
+			Debug.LogError("WaitForStop was cancelled.");
+		}
+		ToggleSimulation(false);
 	}
 }
