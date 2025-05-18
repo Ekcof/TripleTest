@@ -14,6 +14,7 @@ public class LevelConfig : ScriptableObject
 	[SerializeField, Min(1)] private int _rowNumber;
 
 	[SerializeField] private ExtraFigureConfig[] _extraFigures;
+	public int RowNumber => _rowNumber;
 
 	public IEnumerable<RegularFigureConfig> GetAllCombinations()
 	{

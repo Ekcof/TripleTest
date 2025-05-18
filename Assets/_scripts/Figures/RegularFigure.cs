@@ -20,6 +20,7 @@ namespace Figures
 		IFigureConfig Config { get; }
 		void ApplyConfig(RegularFigureConfig config);
 		void SetButtonInteractable(bool isActive);
+		void Deactivate();
 	}
 	public class RegularFigure : MonoBehaviour, IFigure 
 	{
@@ -36,6 +37,11 @@ namespace Figures
 			_config = config;
 			_figureView.UpdateView(this);
 			ActivateCollider(config.FormType);
+		}
+
+		public void Deactivate()
+		{
+			gameObject.SetActive(false);
 		}
 
 		public void SetButtonInteractable(bool isActive)

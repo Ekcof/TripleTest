@@ -63,6 +63,7 @@ public class PhysicManager : IPhysicManager
 	{
 		Debug.Log($"{nameof(PhysicManager)}: {nameof(ToggleSimulation)}: {isActive}");
 		Physics2D.simulationMode = isActive ? SimulationMode2D.FixedUpdate : SimulationMode2D.Script;
+		_hasMovingRBs.Value = isActive;
 	}
 
 	public async UniTask WaitForStop(CancellationToken token)

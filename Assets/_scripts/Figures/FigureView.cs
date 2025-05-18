@@ -16,6 +16,7 @@ namespace Figures
 	{
 		[Inject] private IIconsHolder _iconsHolder;
 		[Inject] private IFormsHolder _formsHolder;
+		[Inject] private ISlotsManager _slotsManager;
 
 		[SerializeField] private Image _form;
 		[SerializeField] private Image _icon;
@@ -23,6 +24,19 @@ namespace Figures
 
 		private IFigure _currentFigure;
 		public RectTransform RectTransform => (RectTransform)transform;
+
+		private void Awake()
+		{
+			_button.SetListener(OnClick);
+		}
+
+		private void OnClick()
+		{
+			if (_slotsManager.TryRegisterFigure(_currentFigure))
+			{
+				_currentFigure.Deactivate();
+			}
+		}
 
 		public void SetInteractable(bool isActive)
 		{

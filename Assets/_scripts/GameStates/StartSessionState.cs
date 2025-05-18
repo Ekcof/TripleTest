@@ -8,12 +8,15 @@ public class StartSessionState : GameState
 	[Inject] private IFiguresSpawner _spawner;
 	[Inject] private ILevelsHandler _levels;
 	[Inject] private IPhysicManager _physicManager;
+	[Inject] private ILevelManager _levelManager;
+	[Inject] private ISlotsManager _slotsManager;
 	public override GameStateType StateType => GameStateType.StartSessionState;
 
 	public async override UniTask Start()
 	{
 		await base.Start();
-		var level = _levels.GetLevel(); // TODO: REMOVE
+		var level = _levelManager.NextLevel(); // TODO: REMOVE
+		_slotsManager.ClearAllSlots();
 
 		try
 		{

@@ -9,6 +9,7 @@ namespace StateMachine
 {
 	public interface IGameStateMachine
 	{
+		GameStateType CurrentStateType { get; }
 		IReadOnlyReactiveProperty<IGameState> CurrentState { get; }
 		void Initialize();
 		void SetState(GameStateType type);
@@ -25,6 +26,7 @@ namespace StateMachine
 			//new CalculatingState()
 			};
 		public IReadOnlyReactiveProperty<IGameState> CurrentState => _currentState;
+		public GameStateType CurrentStateType => _currentState.Value != null ? _currentState.Value.StateType : GameStateType.None;
 
 		public void Initialize()
 		{
