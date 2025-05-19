@@ -29,7 +29,7 @@ public class ResultSlot : MonoBehaviour
 
 	private void SetFlight(IFigure figure)
 	{
-		var localPos = ((RectTransform)_view.RectTransform.parent).WorldToLocalPoint(figure.Position, _camera);
+		var localPos = _view.Parent.WorldToLocalPoint(figure.Position, _camera);
 
 		DOTween.Kill(_view.RectTransform);
 
@@ -40,7 +40,7 @@ public class ResultSlot : MonoBehaviour
 
 		_view.RectTransform
 			.DOAnchorPos(Vector2.zero, 0.5f)
-			.SetEase(Ease.OutBack)
+			.SetEase(Ease.InOutQuad)
 			.OnComplete(() =>
 			{
 				_view.SetInteractable(true);

@@ -7,6 +7,7 @@ namespace Figures
 	public interface IFigureView
 	{
 		RectTransform RectTransform { get; }
+		RectTransform Parent { get; }
 		void AssignFigure(IFigure figure);
 		void UpdateView(IFigureConfig figureConfig);
 		void SetInteractable(bool isActive);
@@ -26,6 +27,7 @@ namespace Figures
 
 		private IFigure _currentFigure;
 		public RectTransform RectTransform => (RectTransform)transform;
+		public RectTransform Parent => (RectTransform)transform.parent;
 
 		private void Awake()
 		{
