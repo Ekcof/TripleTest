@@ -10,17 +10,27 @@ public class StartSessionState : GameState
 	[Inject] private IPhysicManager _physicManager;
 	[Inject] private ILevelManager _levelManager;
 	[Inject] private ISlotsManager _slotsManager;
+	[Inject] private IWindowManager _windowManager;
 	public override GameStateType StateType => GameStateType.StartSessionState;
 
 	public async override UniTask Start()
 	{
 		await base.Start();
-		var level = _levelManager.NextLevel(); // TODO: REMOVE
+		if (_levelManager.LevelConfig.Value == null) // TODO: REMOVE
+			_levelManager.NextLevel(); // TODO: REMOVE
+
+		_windowManager.CloseAllWindows(true);
 		_slotsManager.ClearAllSlots();
+		_spawner.Clear();
+		_physicManager.ToggleSimulation(true);
+		_cts?.CancelAndDispose();
+		_cts = new();
+
+		UnityEngine.Debug.Log($"______Spawn {_levelManager.LevelConfig.Value.Id}");
 
 		try
 		{
-			await _spawner.SpawnFigures(level, _cts.Token);
+			await _spawner.SpawnFigures(_levelManager.LevelConfig.Value, _cts.Token);
 			await _physicManager.WaitForStop(_cts.Token);
 		}
 		catch
@@ -36,6 +46,5 @@ public class StartSessionState : GameState
 		base.OnChangeState(state);
 		if (state.StateType != StateType)
 			return;
-		Start().Forget();
 	}
 }

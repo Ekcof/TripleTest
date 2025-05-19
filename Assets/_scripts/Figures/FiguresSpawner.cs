@@ -11,13 +11,15 @@ namespace Figures
 {
 	public interface IFiguresSpawner
 	{
+		IReadOnlyReactiveCollection<RegularFigure> ActiveFigures { get;}
+		void Remove(IFigure figure);
+		void Clear();
 		UniTask SpawnFigures(LevelConfig levelConfig, CancellationToken token);
 		void ToggleFigureControl(bool isActive);
 	}
 
 	public class FiguresSpawner : MonoBehaviour, IFiguresSpawner
 	{
-		[Inject] private ILevelsHandler _levelsHandler;
 		[Inject] private DiContainer _diContainer;
 		[Inject] private IPhysicManager _physicManager;
 
@@ -27,25 +29,36 @@ namespace Figures
 
 		private CommonPool<RegularFigure> _pool;
 		private ReactiveCollection<RegularFigure> _activeFigures = new();
+		public IReadOnlyReactiveCollection<RegularFigure> ActiveFigures => _activeFigures;
 
 		private void Awake()
 		{
 			_pool = new CommonPool<RegularFigure>(_figurePrefab, transform, _diContainer);
 		}
 
-		//[ContextMenu("Spawn Items")]
+		public void Clear()
+		{
+			_pool.Push(_activeFigures);
+			_activeFigures.Clear();
+			_physicManager.ClearAllRigidBodies();
+		}
+		
+		public void Remove(IFigure figure)
+		{
+			if (figure is RegularFigure regular && _activeFigures.Contains(regular))
+			{
+				_activeFigures.Remove(regular);
+				_pool.Push(regular);
+			}
+		}
+
 		public async UniTask SpawnFigures(LevelConfig levelConfig, CancellationToken token)
 		{
 			_pool.Push(_activeFigures);
-			if (_levelsHandler == null)
-			{
-				Debug.LogError("LevelsHandler is not set");
-				return;
-			}
-			levelConfig = _levelsHandler.GetLevel(); // REMOVE
+
 			try
 			{
-				await SpawnFigures(levelConfig.GetAllCombinations(), token);
+				await SpawnFiguresInternal(levelConfig.GetAllCombinations(), token);
 			}
 			catch
 			{
@@ -54,7 +67,7 @@ namespace Figures
 			}
 		}
 
-		public async UniTask SpawnFigures(IEnumerable<RegularFigureConfig> configs, CancellationToken token)
+		private async UniTask SpawnFiguresInternal(IEnumerable<RegularFigureConfig> configs, CancellationToken token)
 		{
 			int direction = 1;
 			int currentIndex = _spawnPoints.GetRandomIndex();

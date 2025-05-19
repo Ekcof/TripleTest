@@ -4,10 +4,11 @@ using Zenject;
 
 namespace Figures
 {
-    public interface IFigureView
-    {
+	public interface IFigureView
+	{
 		RectTransform RectTransform { get; }
-		void UpdateView(IFigure figure);
+		void AssignFigure(IFigure figure);
+		void UpdateView(IFigureConfig figureConfig);
 		void SetInteractable(bool isActive);
 	}
 
@@ -17,6 +18,7 @@ namespace Figures
 		[Inject] private IIconsHolder _iconsHolder;
 		[Inject] private IFormsHolder _formsHolder;
 		[Inject] private ISlotsManager _slotsManager;
+		[Inject] private IFiguresSpawner _figuresSpawner;
 
 		[SerializeField] private Image _form;
 		[SerializeField] private Image _icon;
@@ -27,14 +29,15 @@ namespace Figures
 
 		private void Awake()
 		{
-			_button.SetListener(OnClick);
+			if (_button != null)
+				_button.SetListener(OnClick);
 		}
 
 		private void OnClick()
 		{
-			if (_slotsManager.TryRegisterFigure(_currentFigure))
+			if (_currentFigure != null && _slotsManager.TryRegisterFigure(_currentFigure))
 			{
-				_currentFigure.Deactivate();
+				_figuresSpawner.Remove(_currentFigure);
 			}
 		}
 
@@ -43,19 +46,23 @@ namespace Figures
 			_button.interactable = isActive;
 		}
 
-		public void UpdateView(IFigure figure)
+		public void AssignFigure(IFigure figure)
 		{
-			if (figure == null)
-				return;
-
 			_currentFigure = figure;
+			UpdateView(figure.Config);
+		}
+
+		public void UpdateView(IFigureConfig config)
+		{
+			if (config == null)
+				return;
 
 			if (_formsHolder == null)
 			{
 				Debug.LogError("FormsHolder is not set");
 			}
-			_form.sprite = _formsHolder.GetFormSprite(figure.Config);
-			_icon.sprite = _iconsHolder.GetIconByType(figure.Config.Icon).Sprite;
+			_form.sprite = _formsHolder.GetFormSprite(config);
+			_icon.sprite = _iconsHolder.GetIconByType(config.Icon).Sprite;
 		}
 	}
 }

@@ -10,7 +10,8 @@ public enum GameStateType
 	None,
 	StartSessionState,
 	SelectionState,
-	CalculatingState
+	WinState,
+	FailState
 }
 
 public interface IGameState
@@ -52,6 +53,10 @@ public abstract class GameState : IGameState
 		if (state.StateType != StateType)
 		{
 			Abort();
+		}
+		else
+		{
+			Start().Forget();
 		}
 	}
 }

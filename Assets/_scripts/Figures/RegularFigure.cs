@@ -16,6 +16,8 @@ namespace Figures
 
 	public interface IFigure
 	{
+		Vector3 Position { get; }
+		Vector3 Rotation { get; }
 		Rigidbody2D Rigidbody2D { get; }
 		IFigureConfig Config { get; }
 		void ApplyConfig(RegularFigureConfig config);
@@ -29,19 +31,22 @@ namespace Figures
 		[SerializeField] private FigureType _figureType = FigureType.Regular;
 		[SerializeField] private Rigidbody2D _rigidbody2D;
 		private RegularFigureConfig _config;
+		public Vector3 Position => transform.position;
+		public Vector3 Rotation => transform.eulerAngles;
 		public IFigureConfig Config => _config;
 		public Rigidbody2D Rigidbody2D => _rigidbody2D;
 
 		public void ApplyConfig(RegularFigureConfig config)
 		{
 			_config = config;
-			_figureView.UpdateView(this);
+			_figureView.AssignFigure(this);
 			ActivateCollider(config.FormType);
 		}
 
 		public void Deactivate()
 		{
 			gameObject.SetActive(false);
+			_figureView.SetInteractable(false);
 		}
 
 		public void SetButtonInteractable(bool isActive)

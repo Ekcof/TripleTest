@@ -21,10 +21,11 @@ namespace StateMachine
 		private readonly ReactiveProperty<IGameState> _currentState = new();
 		private List<IGameState> _states = new()
 		{
-		new StartSessionState(),
-			new SelectionState()
-			//new CalculatingState()
-			};
+			new StartSessionState(),
+			new SelectionState(),
+			new FailState(),
+			new WinState()
+		};
 		public IReadOnlyReactiveProperty<IGameState> CurrentState => _currentState;
 		public GameStateType CurrentStateType => _currentState.Value != null ? _currentState.Value.StateType : GameStateType.None;
 

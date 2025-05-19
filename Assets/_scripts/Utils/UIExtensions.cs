@@ -7,115 +7,47 @@ using UnityEngine.UI;
 public static class UIExtensions
 {
 	/// <summary>
-	/// Converts the <paramref name="fromRect"/>'s anchoredPosition from its local coordinate system
-	/// to the local coordinate system of <paramref name="toRect"/>.
-	/// 
-	/// Under the hood, it finds the parent canvases via <see cref="GetParentCanvas()"/>, so you do not need
-	/// to explicitly pass them.
-	/// 
-	/// You can also apply an optional offset in pixels to the final result in the <paramref name="toRect"/> coordinate space.
+	/// Преобразует мировую позицию в локальные координаты этого RectTransform.
 	/// </summary>
-	/// <param name="fromRect">The RectTransform whose anchoredPosition will be transformed.</param>
-	/// <param name="toRect">The target RectTransform in which we want to get local coordinates.</param>
-	/// <param name="xOffset">Additional offset in the x-axis (in pixels), applied after conversion.</param>
-	/// <param name="yOffset">Additional offset in the y-axis (in pixels), applied after conversion.</param>
-	/// <returns>Local coordinates in <paramref name="toRect"/> (or Vector2.zero if something went wrong).</returns>
-	public static Vector2 ConvertLocalRectToLocalRect(
-		this RectTransform fromRect,
-		RectTransform toRect,
-		float xOffset = 0f,
-		float yOffset = 0f
-	)
+	/// <param name="rect">Целевой RectTransform.</param>
+	/// <param name="worldPosition">Позиция в мировых координатах.</param>
+	/// <param name="worldCamera">
+	/// Камера, через которую рендерится мир. Если null, будет использована Camera.main.
+	/// </param>
+	/// <returns>Локальные координаты в пространстве rect, соответствующие worldPosition.</returns>
+	public static Vector2 WorldToLocalPoint(
+		this RectTransform rect,
+		Vector3 worldPosition,
+		Camera worldCamera = null)
 	{
-		if (fromRect == null || toRect == null)
-			return Vector2.zero;
+		if (worldCamera == null)
+			worldCamera = Camera.main;
 
-		var fromCanvas = fromRect.GetParentCanvas();
-		var toCanvas = toRect.GetParentCanvas();
-		if (fromCanvas == null || toCanvas == null)
-			return Vector2.zero;
+		// 1) мир → экран
+		Vector2 screenPoint = worldCamera.WorldToScreenPoint(worldPosition);
 
-		// 1) Pivot world → screen
-		var fromCam = fromCanvas.renderMode == RenderMode.ScreenSpaceOverlay
-			? null
-			: fromCanvas.worldCamera;
-		Vector2 screenPt = RectTransformUtility.WorldToScreenPoint(fromCam, fromRect.position);
+		// 2) найти Canvas и его UI-камеру (если есть)
+		Canvas canvas = rect.GetComponentInParent<Canvas>();
+		Camera uiCamera = null;
+		if (canvas != null && canvas.renderMode == RenderMode.ScreenSpaceCamera)
+			uiCamera = canvas.worldCamera;
 
-		// 2) Screen → local toRect
-		var toCam = toCanvas.renderMode == RenderMode.ScreenSpaceOverlay
-			? null
-			: toCanvas.worldCamera;
+		// 3) экран → локальные координаты внутри rect
 		RectTransformUtility.ScreenPointToLocalPointInRectangle(
-			toRect, screenPt, toCam, out Vector2 localPt);
+			rect, screenPoint, uiCamera, out Vector2 localPoint);
 
-		// 3) optional offset
-		localPt.x += xOffset;
-		localPt.y += yOffset;
-		return localPt;
+		return localPoint;
 	}
 
-	public static Canvas GetParentCanvas(this Component component)
+	/// <summary>
+	/// Перегрузка: принимает Transform и автоматически берёт его позицию.
+	/// </summary>
+	public static Vector2 WorldToLocalPoint(
+		this RectTransform rect,
+		Transform worldTransform,
+		Camera worldCamera = null)
 	{
-		if (component == null) return null;
-		return component.GetComponentInParent<Canvas>();
-	}
-
-	public static RectTransform GetRectTransform(this Button button) => button.GetComponent<RectTransform>();
-
-	public static void SetRect(this RectTransform rt, Rect newRect)
-	{
-		rt.anchoredPosition = new Vector2(newRect.x, newRect.y);
-		rt.sizeDelta = new Vector2(newRect.width, newRect.height);
-	}
-
-	public static int GetSpriteCharacterIndex(this TMP_Text textField, int spriteIndex)
-	{
-		string text = textField.text;
-
-		string spriteTag = $"<sprite={spriteIndex}>";
-
-		for (int i = 0; i < text.Length - spriteTag.Length; i++)
-		{
-			if (text.Substring(i, spriteTag.Length) == spriteTag)
-			{
-				return i;
-			}
-		}
-
-		Debug.LogError($"Sprite with index {spriteIndex} not found.");
-		return -1;
-	}
-
-	public static RectTransform CreateRectTransformForSymbol(this TMP_Text textField, int characterIndex, RectTransform parentRect, float padding = 20f)
-	{
-		TMP_TextInfo textInfo = textField.textInfo;
-		if (characterIndex < 0 || characterIndex >= textInfo.characterCount)
-		{
-			Debug.LogError("Character index out of range.");
-			return null;
-		}
-
-		TMP_CharacterInfo charInfo = textInfo.characterInfo[characterIndex];
-
-		var topLeft = charInfo.topLeft;
-		var bottomRight = charInfo.bottomRight;
-
-		var worldTopLeft = parentRect.TransformPoint(topLeft);
-		var worldBottomRight = parentRect.TransformPoint(bottomRight);
-		GameObject boundingBox = new("SpriteBoundingBox");
-		RectTransform rectTransform = boundingBox.AddComponent<RectTransform>();
-
-		rectTransform.SetParent(parentRect);
-
-		rectTransform.position = (worldTopLeft + worldBottomRight) / 2;
-
-		rectTransform.sizeDelta = new Vector2((worldBottomRight.x - worldTopLeft.x) + padding, (worldTopLeft.y - worldBottomRight.y) + padding);
-
-		rectTransform.pivot = new Vector2(0.5f, 0.5f);
-		rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-		rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-
-		return rectTransform;
+		return rect.WorldToLocalPoint(worldTransform.position, worldCamera);
 	}
 
 	public static void SetListener(this Button button, Action action)

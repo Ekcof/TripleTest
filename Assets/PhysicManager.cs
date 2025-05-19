@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using UniRx;
@@ -16,6 +16,7 @@ public interface IPhysicManager
 
 public class PhysicManager : IPhysicManager
 {
+	private const float DELAY_BEFORE_STOP = 0.5f;
 	private ReactiveProperty<bool> _hasMovingRBs = new(false);
 	private readonly List<Rigidbody2D> _allRigidBodies = new();
 
@@ -70,6 +71,15 @@ public class PhysicManager : IPhysicManager
 	{
 		try
 		{
+			await UniTask.Delay(TimeSpan.FromSeconds(DELAY_BEFORE_STOP), cancellationToken: token);
+		}
+		catch
+		{
+			Debug.LogError("WaitForStop was cancelled on delay.");
+			return;
+		}
+		try
+		{
 			await UniTask.WaitWhile(() =>
 			{
 				foreach (var rb in _allRigidBodies)
@@ -81,11 +91,12 @@ public class PhysicManager : IPhysicManager
 				}
 				return false;
 			}, cancellationToken: token);
+			ToggleSimulation(false);
 		}
 		catch
 		{
-			Debug.LogError("WaitForStop was cancelled.");
+			Debug.LogError("WaitForStop was cancelled before actual stop.");
+			return;
 		}
-		ToggleSimulation(false);
 	}
 }
