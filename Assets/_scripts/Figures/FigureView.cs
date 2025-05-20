@@ -24,6 +24,7 @@ namespace Figures
 		[SerializeField] private Image _form;
 		[SerializeField] private Image _icon;
 		[SerializeField] private Button _button;
+		[SerializeField] private ParticleSystem _particles;
 
 		private IFigure _currentFigure;
 		public RectTransform RectTransform => (RectTransform)transform;
@@ -40,6 +41,17 @@ namespace Figures
 			if (_currentFigure != null && _slotsManager.TryRegisterFigure(_currentFigure))
 			{
 				_figuresSpawner.Remove(_currentFigure);
+			}
+		}
+
+		public void SetParticlesActive(bool isActive)
+		{
+			if (_particles != null)
+			{
+				if (isActive)
+					_particles.Play();
+				else
+					_particles.Stop();
 			}
 		}
 

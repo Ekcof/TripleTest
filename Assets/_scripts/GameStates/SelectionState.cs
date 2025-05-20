@@ -32,10 +32,28 @@ public class SelectionState : GameState
 			{
 				GameStateMachine.SetState(GameStateType.WinState);
 			}
-			else if(_slotsManager.AreAllSlotsOccupied)
+			else if(_slotsManager.AreAllSlotsNotEmpty)
 			{
-				GameStateMachine.SetState(GameStateType.FailState);
+				_cts?.CancelAndDispose();
+				_cts = new();
+				CheckAllSlotsOccupied(_cts.Token).Forget();
 			}
+		}
+	}
+
+	private async UniTask CheckAllSlotsOccupied(CancellationToken token)
+	{
+		try
+		{
+			await UniTask.WaitUntil(() => _slotsManager.NoProcessingSlots, cancellationToken: token);
+		}
+		catch
+		{
+			return;
+		}
+		if (_slotsManager.AreAllSlotsNotEmpty)
+		{
+			GameStateMachine.SetState(GameStateType.FailState);
 		}
 	}
 

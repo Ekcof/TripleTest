@@ -9,7 +9,7 @@ namespace Figures
 		Sprite GetFormSprite(IFigureConfig config);
 	}
 
-	[CreateAssetMenu(fileName = "FormsHolder", menuName = "ScriptableObjects/FormsHolder")]
+	[CreateAssetMenu(fileName = "FormsHolder", menuName = "Scriptable Objects/FormsHolder")]
 	public class FormsHolder : ScriptableObject, IFormsHolder
 	{
 		[SerializeField] private FormConfig[] _forms;

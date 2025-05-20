@@ -9,7 +9,7 @@ namespace Figures
 		Icon GetIconByType(IconType type);
 	}
 
-	[CreateAssetMenu(fileName = "IconsHolder", menuName = "ScriptableObjects/IconsHolder")]
+	[CreateAssetMenu(fileName = "IconsHolder", menuName = "Scriptable Objects/IconsHolder")]
 	public class IconsHolder : ScriptableObject, IIconsHolder
 	{
 		[SerializeField] private Icon[] _icons;

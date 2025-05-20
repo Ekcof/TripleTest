@@ -1,15 +1,14 @@
 using Figures;
-using Mono.Cecil;
 using StateMachine;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 public interface ISlotsManager
 {
-	bool AreAllSlotsOccupied { get; }
+	bool AreAllSlotsNotEmpty { get; }
+	bool NoProcessingSlots { get; }
 	int SlotsNum { get; }
 	bool TryRegisterFigure(IFigure figure);
 	void ClearAllSlots();
@@ -21,18 +20,18 @@ public class SlotsManager : MonoBehaviour, ISlotsManager
 	[Inject] private IGameStateMachine _stateMachine;
 	[Inject] private IFiguresSpawner _spawner;
 	[SerializeField] private ResultSlot[] _slots;
-	private int OccupiedSlotsNum => _slots.Where(s => s.IsOccupied).Count();
-	public bool AreAllSlotsOccupied => OccupiedSlotsNum == _slots.Length;
+	private int OccupiedSlotsNum => _slots.Where(s => s.Status != SlotStatus.Empty).Count();
+	public bool AreAllSlotsNotEmpty => OccupiedSlotsNum == _slots.Length;
+	public bool NoProcessingSlots => _slots.Where(s => s.Status == SlotStatus.Processing).Count() == 0;
 	public int SlotsNum => _slots.Length;
 	public IEnumerable<IFigureConfig> ConfigInSlots => _slots.Select(s => s.CurrentConfig).Where(figure => figure != null);
 	public bool TryRegisterFigure(IFigure figure)
 	{
 		foreach (var slot in _slots)
 		{
-			if (!slot.IsOccupied)
+			if (slot.Status is SlotStatus.Empty)
 			{
-				slot.AssignFigure(figure);
-				CheckSlots();
+				slot.AssignFigure(figure, CheckSlots);
 				return true;
 			}
 		}
@@ -55,7 +54,7 @@ public class SlotsManager : MonoBehaviour, ISlotsManager
 
 		foreach (var slot in _slots)
 		{
-			if (slot.IsOccupied)
+			if (slot.Status is SlotStatus.Occupied)
 			{
 				var config = slot.CurrentConfig;
 				var key = $"{config.Icon}{config.Color}{config.FormType}";
@@ -89,16 +88,24 @@ public class SlotsManager : MonoBehaviour, ISlotsManager
 
 	private void OrderSlots()
 	{
-		var occupiedSlots = _slots.Where(slot => slot.IsOccupied).ToList();
-		var emptySlots = _slots.Where(slot => !slot.IsOccupied).ToList(); 
-		var orderedSlots = occupiedSlots.Concat(emptySlots).ToList();
+		var occupiedSlots = _slots.Where(slot => slot.Status == SlotStatus.Occupied).ToList();
+		var processingSlots = _slots.Where(slot => slot.Status == SlotStatus.Processing).ToList();
+		var emptySlots = _slots.Where(slot => slot.Status == SlotStatus.Empty).ToList();
+		var orderedSlots = occupiedSlots.Concat(processingSlots).Concat(emptySlots).ToList();
 
 		for (int i = 0; i < _slots.Length; i++)
 		{
 			_slots[i] = orderedSlots[i];
 		}
 
-		// Move ResultSlot transforms to the end of sibling indices  
+		foreach (var slot in occupiedSlots)
+		{
+			slot.transform.SetAsLastSibling();
+		}
+		foreach (var slot in processingSlots)
+		{
+			slot.transform.SetAsLastSibling();
+		}
 		foreach (var slot in emptySlots)
 		{
 			slot.transform.SetAsLastSibling();

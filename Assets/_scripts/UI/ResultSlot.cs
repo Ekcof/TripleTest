@@ -1,8 +1,15 @@
 using UnityEngine;
-using UnityEngine.UI;
 using Figures;
 using Zenject;
 using DG.Tweening;
+using System;
+
+public enum SlotStatus
+{
+	Empty,
+	Processing,
+	Occupied
+}
 
 public class ResultSlot : MonoBehaviour
 {
@@ -11,25 +18,28 @@ public class ResultSlot : MonoBehaviour
 	private IFigureConfig _currentConfig;
 	public IFigureConfig CurrentConfig => _currentConfig;
 
-	public bool IsOccupied => _currentConfig != null;
+	public SlotStatus Status { get; private set; } = SlotStatus.Empty;
 
 	public void UnassignFigure()
 	{
+		Status = SlotStatus.Empty;
 		_currentConfig = null;
 		_view.gameObject.SetActive(false);
 	}
 
-	public void AssignFigure(IFigure figure)
+	public void AssignFigure(IFigure figure, Action onArrive)
 	{
 		_currentConfig = figure.Config;
 		_view.gameObject.SetActive(true);
 		_view.UpdateView(figure.Config);
-		SetFlight(figure);
+		SetFlight(figure, onArrive);
 	}
 
-	private void SetFlight(IFigure figure)
+	private void SetFlight(IFigure figure, Action onArrive)
 	{
 		var localPos = _view.Parent.WorldToLocalPoint(figure.Position, _camera);
+		Status = SlotStatus.Processing;
+		_view.SetParticlesActive(true);
 
 		DOTween.Kill(_view.RectTransform);
 
@@ -43,7 +53,9 @@ public class ResultSlot : MonoBehaviour
 			.SetEase(Ease.InOutQuad)
 			.OnComplete(() =>
 			{
-				_view.SetInteractable(true);
+				_view.SetParticlesActive(false);
+				Status = SlotStatus.Occupied;
+				onArrive?.Invoke();
 			});
 
 		_view.RectTransform

@@ -172,7 +172,7 @@ TextureImporter:
         width: 287
         height: 341
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -181,6 +181,50 @@ TextureImporter:
       bones: []
       spriteID: 02803e6d1362cc44d8b30fea52b9cd9d
       internalID: 352722741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIAtlas_Pig
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 34
+        width: 377
+        height: 434
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70d6cb6bcea4da546bb9a7cf2a76157d
+      internalID: 1616229115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIAtlas_Wolf
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 33
+        width: 374
+        height: 472
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f85bf14fbb8f5a24196dd5c5487bfffd
+      internalID: -1005068815
       vertices: []
       indices: 
       edges: []
@@ -201,6 +245,8 @@ TextureImporter:
     nameFileIdTable:
       MainUIAtlas_0: -1624613651009248877
       MainUIAtlas_1: 352722741
+      MainUIAtlas_Pig: 1616229115
+      MainUIAtlas_Wolf: -1005068815
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

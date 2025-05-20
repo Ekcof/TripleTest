@@ -648,7 +648,27 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      formsAtlas_0: -2300676480453258915
+      formsAtlas_1: -6071529247223502259
+      formsAtlas_10: 8958722161731385523
+      formsAtlas_11: 3939667969903821938
+      formsAtlas_12: -6341161261924818103
+      formsAtlas_13: -7148630984176685904
+      formsAtlas_14: -410071503808468722
+      formsAtlas_15: -916821752804801664
+      formsAtlas_16: 2070459037176663104
+      formsAtlas_17: 5473172119755517815
+      formsAtlas_18: -6649023135137211273
+      formsAtlas_19: -7458496869489937717
+      formsAtlas_2: -6630766120434781242
+      formsAtlas_3: -7368537663919622422
+      formsAtlas_4: 8475867643242929974
+      formsAtlas_5: -6488665859970782309
+      formsAtlas_6: 5003087582475748309
+      formsAtlas_7: 4230693472422322158
+      formsAtlas_8: 4019905596374991644
+      formsAtlas_9: 29475509441060678
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

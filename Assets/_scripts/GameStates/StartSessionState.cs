@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using Figures;
-using System.Diagnostics;
 using Zenject;
 
 public class StartSessionState : GameState

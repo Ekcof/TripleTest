@@ -7,8 +7,10 @@ using TMPro;
 public class StatsPanel : MonoBehaviour
 {
 	[Inject] private IFiguresSpawner _figuresSpawner;
-	[SerializeField] private TMP_Text _text;
-	// Start is called once before the first execution of Update after the MonoBehaviour is created
+	[Inject] private ILevelManager _levelManager;
+	[SerializeField] private TMP_Text _figuresText;
+	[SerializeField] private TMP_Text _levelText;
+
 	private void Awake()
 	{
 		_figuresSpawner.ActiveFigures.ObserveAdd()
@@ -18,6 +20,15 @@ public class StatsPanel : MonoBehaviour
 		_figuresSpawner.ActiveFigures.ObserveRemove()
 			.Subscribe(OnFigureRemoved)
 			.AddTo(this);
+
+		_levelManager.LevelConfig
+			.Subscribe(OnLevelChanged)
+			.AddTo(this);
+	}
+
+	private void OnLevelChanged(LevelConfig config)
+	{
+			_levelText.text = config != null ? _levelManager.LevelConfig.Value.Id : "unknown";
 	}
 
 	private void OnFigureRemoved(CollectionRemoveEvent<RegularFigure> @event)
@@ -32,6 +43,6 @@ public class StatsPanel : MonoBehaviour
 
 	private void UpdateText()
 	{
-		_text.text = $"{_figuresSpawner.ActiveFigures.Count}";
+		_figuresText.text = $"{_figuresSpawner.ActiveFigures.Count}";
 	}
 }

@@ -1,8 +1,5 @@
-using Figures;
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.STP;
 
 namespace Figures
 {
@@ -16,6 +13,7 @@ namespace Figures
 
 	public interface IFigure
 	{
+		FigureType FigureType { get; }
 		Vector3 Position { get; }
 		Vector3 Rotation { get; }
 		Rigidbody2D Rigidbody2D { get; }
@@ -28,9 +26,9 @@ namespace Figures
 	{
 		[SerializeField] private FigureView _figureView;
 		[SerializeField] private FigureCollider[] _colliders;
-		[SerializeField] private FigureType _figureType = FigureType.Regular;
 		[SerializeField] private Rigidbody2D _rigidbody2D;
 		private RegularFigureConfig _config;
+		public FigureType FigureType => FigureType.Regular;
 		public Vector3 Position => transform.position;
 		public Vector3 Rotation => transform.eulerAngles;
 		public IFigureConfig Config => _config;

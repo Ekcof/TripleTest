@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Use for keeping all the scene in the scope of camera in different resolutions of screen
+/// </summary>
 [ExecuteAlways]
 public class CameraWidthKeeper : MonoBehaviour
 {
