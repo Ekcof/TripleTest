@@ -9,6 +9,7 @@ using UnityEngine;
 public class LevelConfig : ScriptableObject
 {
 	[SerializeField] private string _id;
+	[SerializeField] private ColldierLevelType _colliderLevelType;	
 	[SerializeField] private IconType[] _iconTypes;
 	[SerializeField] private FormColor[] _formColors;
 	[SerializeField] private FormType[] _formTypes;
@@ -17,7 +18,7 @@ public class LevelConfig : ScriptableObject
 	[SerializeField] private ExtraFigureConfig[] _extraFigures;
 	public int RowNumber => _rowNumber;
 	public string Id => _id;
-
+	public ColldierLevelType ColliderLevelType => _colliderLevelType;
 	public IEnumerable<RegularFigureConfig> GetAllCombinations()
 	{
 		var list = new List<RegularFigureConfig>();

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: LevelTutorial
   m_EditorClassIdentifier: 
   _id: Tutorial
+  _colliderLevelType: 1
   _iconTypes: 0100000004000000
   _formColors: 0100000003000000
   _formTypes: 010000000300000002000000

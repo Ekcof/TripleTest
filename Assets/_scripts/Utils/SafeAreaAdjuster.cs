@@ -1,28 +1,24 @@
 using UnityEngine;
 
-public class SafeAreaAdjuster : MonoBehaviour
+/// <summary>
+/// Use only for top-strech RectTransform
+/// </summary>
+public class SafeAreaTopAdjuster : MonoBehaviour
 {
-	[SerializeField] private RectTransform _rectTransform;
-
 	void Start()
 	{
-		AdjustToSafeArea();
+		ApplyTopInset();
 	}
 
-	void AdjustToSafeArea()
+	void ApplyTopInset()
 	{
+		Rect safe = Screen.safeArea;
+		var rt = GetComponent<RectTransform>();
+		var canvas = GetComponentInParent<Canvas>();
+		float scale = canvas ? canvas.scaleFactor : 1f;
 
-		Rect safeArea = Screen.safeArea;
+		float insetTop = (Screen.height - (safe.y + safe.height)) / scale;
 
-		Vector2 safeAreaMin = safeArea.position;
-		Vector2 safeAreaMax = safeArea.position + safeArea.size;
-
-		Vector2 currentPosition = _rectTransform.anchoredPosition;
-		Vector2 currentSize = _rectTransform.sizeDelta;
-
-		currentPosition.y = Mathf.Max(currentPosition.y, safeAreaMin.y);
-		_rectTransform.anchoredPosition = currentPosition;
-
-		_rectTransform.sizeDelta = new Vector2(currentSize.x, currentSize.y);
+		rt.offsetMax = new Vector2(rt.offsetMax.x, -insetTop);
 	}
 }

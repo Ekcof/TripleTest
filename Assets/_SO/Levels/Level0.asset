@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Level0
   m_EditorClassIdentifier: 
   _id: Level0
+  _colliderLevelType: 2
   _iconTypes: 010000000200000003000000
   _formColors: 000000000100000002000000
   _formTypes: 000000000100000002000000
