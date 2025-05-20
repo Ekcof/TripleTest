@@ -1,24 +1,30 @@
 using UnityEngine;
 
 /// <summary>
-/// Use only for top-strech RectTransform
+/// Use only for top-strech RectTransform: shifts the whole panel down under the notch (brovka)
 /// </summary>
-public class SafeAreaTopAdjuster : MonoBehaviour
+[RequireComponent(typeof(RectTransform))]
+public class SafeAreaTopShifter : MonoBehaviour
 {
 	void Start()
 	{
-		ApplyTopInset();
+		ApplyTopShift();
 	}
 
-	void ApplyTopInset()
+	void ApplyTopShift()
 	{
 		Rect safe = Screen.safeArea;
-		var rt = GetComponent<RectTransform>();
-		var canvas = GetComponentInParent<Canvas>();
+		RectTransform rt = GetComponent<RectTransform>();
+		Canvas canvas = GetComponentInParent<Canvas>();
 		float scale = canvas ? canvas.scaleFactor : 1f;
 
 		float insetTop = (Screen.height - (safe.y + safe.height)) / scale;
 
-		rt.offsetMax = new Vector2(rt.offsetMax.x, -insetTop);
+		Vector2 min = rt.offsetMin;
+		Vector2 max = rt.offsetMax;
+		min.y -= insetTop;
+		max.y -= insetTop;
+		rt.offsetMin = min;
+		rt.offsetMax = max;
 	}
 }

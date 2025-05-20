@@ -43,3 +43,5 @@ namespace Figures
 		public IconType Icon { get; private set; }
 	}
 }
+
+//
