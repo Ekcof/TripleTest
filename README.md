@@ -8,7 +8,7 @@
 При каждом удачном совпадении (все три одинаковые фигурки заняли слоты) эти слоты очищаются. Победа наступает при полной зачистке поля. После этого предлагается перейти на следующий уровень.
 
 ## Демонстрация
-<img src="output.gif" width="200" alt="Gameplay 1">`
+<img src="output.gif" width="200" alt="Gameplay 1"><img src="gif2.gif" width="200" alt="Gameplay 1">
 ![APK игры](https://drive.google.com/file/d/1kz10V4va_Vb0H0Yarv-FfscoKya4fb6h/view?usp=sharing)
 ## Основные фичи
 
